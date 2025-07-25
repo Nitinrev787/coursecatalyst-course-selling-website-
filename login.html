@@ -1,0 +1,141 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #1c38c2a8;
+      background-image: url(bgforreg.png);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background-color: #06050c5d;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      width: 400px;
+    }
+    h2 {
+      text-align: center;
+      color: #33a4c7;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    .form-group label {
+      display: block;
+      color: #e7dec4;
+      margin-bottom: 5px;
+    }
+    .form-group input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ecc456;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+    .btn {
+      width: 100%;
+      padding: 10px;
+      background-color: #4CAF50;
+      color: #ffffff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    .btn:hover {
+      background-color: #99df9c;
+    }
+    .small-text {
+      text-align: center;
+      margin-bottom: 15px;
+    }
+    .small-text a {
+      color: #ecc456;
+      text-decoration: none;
+    }
+    .small-text a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <a href="about.html" style="
+  font-size: 24px;
+  color: rgb(233, 249, 172);
+  text-decoration: none;
+  text-shadow: 1.5px 1.5px 2px rgba(0,0,0,0.5);
+  display: inline-block;
+  margin-bottom: 5px;
+">←</a>
+
+    <h2 style="
+  text-align: center;
+  color: #69d0f8;
+  font-size: 28px;
+  font-weight: 800;
+  text-shadow: 1.5px 1.5px 2px rgba(0,0,0,0.7);
+  margin-bottom: 20px;
+">
+  LOG IN 
+</h2>
+    <form onsubmit="login(event)">
+      <div class="form-group">
+        <label for="username">Email</label>
+        <input type="email" id="username" required />
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" required />
+      </div>
+
+      <div class="small-text" style="text-align: center; margin-bottom: 15px;">
+  <small style="color: #e7dec4;">
+    New user? <a href="register.html" style="color: #ecc456; text-decoration: none;">Register now</a>
+  </small>
+</div>
+
+
+      <button type="submit" class="btn">Login</button>
+    </form>
+  </div>
+
+  <script>
+    async function login(event) {
+      event.preventDefault();
+      const email = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+
+      try {
+        const res = await fetch('http://localhost:5000/api/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
+        });
+
+        const data = await res.json();
+        if (res.ok) {
+          localStorage.setItem('token', data.token);
+          localStorage.setItem('username', email.split('@')[0]); // ✅ store just the name
+          alert('Login successful!');
+          window.location.href = 'index.html';
+        } else {
+          alert(data.message || 'Login failed.');
+        }
+      } catch (err) {
+        alert('Error: ' + err.message);
+      }
+    }
+  </script>
+</body>
+</html>

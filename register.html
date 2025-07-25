@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Registration Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #1c38c2a8;
+      background-image: url(bgforreg.png);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background-color: #06050c5d;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      width: 400px;
+    }
+    h2 {
+      text-align: center;
+      color: #ecc456;
+      font-size: 26px;
+      font-weight: 600;
+      margin-top: 10px;
+      margin-bottom: 20px;
+    }
+    .back-arrow {
+      font-size: 24px;
+      color: #ecc456;
+      text-decoration: none;
+      display: inline-block;
+      margin-bottom: 5px;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    .form-group label {
+      display: block;
+      color: #e7dec4;
+      margin-bottom: 5px;
+    }
+    .form-group input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ecc456;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+    .btn {
+      width: 100%;
+      padding: 10px;
+      background-color: #4CAF50;
+      color: #ffffff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    .btn:hover {
+      background-color: #99df9c;
+    }
+    .login-text {
+      text-align: center;
+      margin-top: 10px;
+      margin-bottom: 15px;
+    }
+    .login-text small {
+      color: #e7dec4;
+    }
+    .login-text a {
+      color: #ecc456;
+      text-decoration: none;
+    }
+    .login-text a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <!-- ✅ Clean arrow instead of button -->
+    <a href="about.html" style="
+  font-size: 24px;
+  color: rgb(233, 249, 172);
+  text-decoration: none;
+  display: inline-block;
+  margin-bottom: 5px;
+">←</a>
+
+
+    <!-- ✅ Modern heading -->
+    <h2 style="
+  text-align: center;
+  color: #69d0f8;
+  font-size: 28px;
+  font-weight: 800;
+  text-shadow: 1.5px 1.5px 2px rgba(0,0,0,0.5);
+  margin-bottom: 20px;
+">
+  Create Your Account
+</h2>
+
+
+    <form onsubmit="register(event)">
+      <div class="form-group">
+        <label for="fname">First Name</label>
+        <input type="text" id="fname" required />
+      </div>
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" required />
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" required />
+      </div>
+      <div class="form-group">
+        <label for="phone">Phone</label>
+        <input type="tel" id="phone" required />
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" required />
+      </div>
+      <div class="form-group">
+        <label for="confirmpassword">Confirm Password</label>
+        <input type="password" id="confirmpassword" required />
+      </div>
+
+      <!-- ✅ Login link styled cleanly -->
+      <div class="login-text">
+        <small>
+          Already have an account?
+          <a href="login.html">Login</a>
+        </small>
+      </div>
+
+      <button type="submit" class="btn">Register</button>
+    </form>
+  </div>
+
+  <script>
+    async function register(event) {
+      event.preventDefault();
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const confirm = document.getElementById('confirmpassword').value;
+
+      if (password !== confirm) {
+        alert("Passwords do not match!");
+        return;
+      }
+
+      try {
+        const res = await fetch('http://localhost:5000/api/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
+        });
+
+        const data = await res.json();
+        if (res.ok) {
+          localStorage.setItem('token', data.token);
+          alert('Registration successful!');
+          window.location.href = 'login.html';
+        } else {
+          alert(data.message || 'Registration failed.');
+        }
+      } catch (err) {
+        alert('Error: ' + err.message);
+      }
+    }
+  </script>
+</body>
+</html>

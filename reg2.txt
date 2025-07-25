@@ -1,0 +1,82 @@
+
+<style>
+    /* Basic styling for demo purposes */
+    body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+    }
+    form {
+        max-width: 400px;
+        margin: 0 auto;
+    }
+    label {
+        display: block;
+        margin-bottom: 10px;
+    }
+    input, select {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+    button {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        float: right;
+    }
+    button:hover {
+        background-color: #45a049;
+    }
+</style>
+</head>
+<body>
+
+<h2>Course Booking Registration</h2>
+
+<form id="registrationForm">
+    <label for="name">Your Name:</label>
+    <input type="text" id="name" name="name" required>
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required>
+
+    <label for="course">Select a Course:</label>
+    <select id="course" name="course" required>
+        <option value="">Select a course</option>
+        <option value="course1">Course 1</option>
+        <option value="course2">Course 2</option>
+        <option value="course3">Course 3</option>
+    </select>
+
+    <button type="submit">Register</button>
+</form>
+
+<script>
+    // JavaScript to handle form submission
+    document.getElementById("registrationForm").addEventListener("submit", function(event) {
+        event.preventDefault(); // Prevent the form from submitting
+
+        // Get form data
+        var formData = new FormData(this);
+        
+        // Display the form data for demonstration
+        for (var pair of formData.entries()) {
+            console.log(pair[0] + ': ' + pair[1]);
+        }
+        
+        // You can process the form data further (e.g., send it to a server via AJAX)
+        // Here's where you would typically send the data to a server
+        
+        // For demonstration, alert that registration was successful
+        alert("Registration successful! Form data submitted.");
+        
+        // Optional: Clear the form after submission
+        this.reset();
+    });
+</script>
